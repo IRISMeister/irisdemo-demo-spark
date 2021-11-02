@@ -32,6 +32,7 @@ root@sparkmaster:/opt/bitnami/spark#
 ```bash
 root@sparkmaster:/opt/bitnami/spark# curl https://s3.amazonaws.com/nyc-tlc/trip+data/green_tripdata_2016-01.csv | sed  '/^.$/d' > /shared/green_tripdata_2016-01.csv
 root@sparkmaster:/opt/bitnami/spark# head -n 1000 /shared/green_tripdata_2016-01.csv > /shared/green_tripdata_2016-01.min.csv
+root@sparkmaster:/opt/bitnami/spark# spark-shell
 ```
 
 ## DFのIRISへの書き込み及び読み出し(spark connector)
