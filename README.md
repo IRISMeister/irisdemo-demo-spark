@@ -114,6 +114,12 @@ val df = spark.read.format("iris").option("dbtable","zeppelin.GreenTrip").option
 ```scala
 val df = spark.read.format("jdbc").option("driver","com.intersystems.jdbc.IRISDriver").option("dbtable","zeppelin.GreenTrip").option("url","jdbc:IRIS://riskengine:1972/USER").option("user","SuperUser").option("password","SYS").load()
 ```
+
+DataFrameの内容をIRISに保存します。
+```scala
+df.write.format("jdbc").option("driver","com.intersystems.jdbc.IRISDriver").option("dbtable","zeppelin.GreenTrip2").option("url","jdbc:IRIS://riskengine:1972/USER").option("user","SuperUser").option("password","SYS").save()
+```
+
 | 本操作はzeppelinでも実行可能。    
 
 # 関連ドキュメント
