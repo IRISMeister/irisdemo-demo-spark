@@ -35,7 +35,7 @@ root@sparkmaster:/opt/bitnami/spark# head -n 1000 /shared/green_tripdata_2016-01
 root@sparkmaster:/opt/bitnami/spark# spark-shell
 ```
 
-## DFのIRISへの書き込み及び読み出し(spark connector)
+## DataFrameのIRISへの書き込み及び読み出し(spark connector)
 ```scala
 case class GreenTrip (
   VendorID: Int,
@@ -121,6 +121,42 @@ df.write.format("jdbc").option("driver","com.intersystems.jdbc.IRISDriver").opti
 ```
 
 | 本操作はzeppelinでも実行可能。    
+
+## pyspark
+同様にpysparkの実行が出来ます。  
+```bash
+$ docker-compose exec sparkmaster bash
+root@sparkmaster:/opt/bitnami/spark# pyspark
+>>>
+```
+先ほどINSERTしたレコードを取得します。  
+```python
+df = spark.read.format("iris").option("dbtable","zeppelin.GreenTrip").load()
+df.take(10)
+```
+
+DataFrameのIRISへの書き込み例です。  
+```python
+from pyspark.sql.types import StructType
+from pyspark.sql.types import StructField
+from pyspark.sql.types import StringType
+from pyspark.sql.types import DoubleType
+
+testdata = StructType([
+StructField('dev', StringType(), False),
+StructField('dt', StringType(), False),
+StructField('ch', DoubleType(), False)
+])
+
+tests = [
+    ("dev1", "2018-01-01 12:20:59.21",1.2),
+    ("dev2", "2018-01-01 12:20:59.21",2.0)
+]
+
+df2 = spark.createDataFrame(tests, testdata)
+df2.write.format("iris").option("dbtable","testdata").mode("OVERWRITE").option("isolationlevel","NONE").save()
+```
+
 
 # 関連ドキュメント
 
